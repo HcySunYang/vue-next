@@ -5,7 +5,7 @@ import {
   Fragment,
   Teleport,
   expectError,
-  expectType
+  expectType,
 } from './index'
 
 expectType<JSX.Element>(<div />)
@@ -21,7 +21,7 @@ expectType<JSX.Element>(<div ref="bar" />)
 
 expectType<JSX.Element>(
   <input
-    onInput={e => {
+    onInput={(e) => {
       // infer correct event type
       expectType<EventTarget | null>(e.target)
     }}
@@ -54,3 +54,21 @@ expectType<JSX.Element>(
 )
 // @ts-expect-error
 expectError(<Suspense onResolve={123} />)
+
+// Events / onXxxOnce / onXxxCapture / onXxxOnceCapture
+expectType<JSX.Element>(
+  <input
+    onInputOnce={(e) => {
+      // infer correct event type
+      expectType<EventTarget | null>(e.target)
+    }}
+    onInputOnceCapture={(e) => {
+      // infer correct event type
+      expectType<EventTarget | null>(e.target)
+    }}
+    onInputCapture={(e) => {
+      // infer correct event type
+      expectType<EventTarget | null>(e.target)
+    }}
+  />
+)

@@ -147,7 +147,16 @@ export function processIf(
         context.removeNode()
         const branch = createIfBranch(node, dir)
         if (__DEV__ && comments.length) {
-          branch.children = [...comments, ...branch.children]
+          if (
+            !context.scopes.transition ||
+            !(
+              context.parent &&
+              context.parent.type === NodeTypes.ELEMENT &&
+              context.parent.tag === 'transition'
+            )
+          ) {
+            branch.children = [...comments, ...branch.children]
+          }
         }
 
         // check if user is forcing same key on different branches
